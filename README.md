@@ -1,4 +1,7 @@
-                                                Lista de Compras
+                                               
+                                https://andiinps.github.io/listaDeCompras/
+
+                                             Lista de Compras
 
                                                   Descrição
                                                   
@@ -57,5 +60,7 @@ Abra o arquivo index.html em um navegador web.
                                         Estrutura do Projeto
 
 index.html: Arquivo HTML principal.
+
 style.css: Arquivo de estilo CSS.
+
 app.js: Arquivo JavaScript com a lógica da aplicação.
