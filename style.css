@@ -26,7 +26,7 @@ section {
     width: 500pt;
     margin: auto;
     box-shadow: 3px 3px 10px #000000;
-    text-align: center; /* Centraliza o conteúdo da seção */
+    text-align: center; 
 }
 
 footer {
@@ -52,7 +52,7 @@ footer {
 .btnTema {
     color: var(--btnFontColor);
     background-color: var(--btnBg);
-    position: relative; /* Corrige a posição */
+    position: relative; 
     height: 50px;
     width: 100px;
     border-radius: 10px;
@@ -67,15 +67,13 @@ select {
     width: 150px;
 }
 
-/* Diminuir o tamanho das caixas de input para preço e quantidade */
 li .preco input, li .quantidade input {
-    width: 60px;  /* Define a largura em 60 pixels */
-    padding: 5px; /* Um padding pequeno para inputs compactos */
-    font-size: 14px;  /* Tamanho de fonte ajustado */
-    text-align: center; /* Alinhamento centralizado */
+    width: 60px;  
+    padding: 5px; 
+    font-size: 14px;  
+    text-align: center; 
 }
 
-/* Melhorando o alinhamento dos elementos */
 li span {
     display: flex;
     align-items: center;
@@ -87,31 +85,31 @@ li {
     align-items: center;
 }
 
-/* Ajuste para os campos de entrada de novos itens */
 #novo-item input[type="text"],
 #novo-item input[type="number"] {
-    width: 120px;  /* Define uma largura compacta */
-    padding: 5px;  /* Padding para deixar os inputs mais confortáveis */
-    font-size: 14px;  /* Tamanho de fonte ajustado */
-    margin-right: 10px; /* Espaço entre os campos de entrada */
+    width: 120px;  
+    padding: 5px; 
+    font-size: 14px;  
+    margin-right: 10px; 
+
 }
 
 #novo-item {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px; /* Espaçamento entre os elementos */
-    margin-bottom: 20px; /* Espaço abaixo do formulário */
-}
+    gap: 10px; 
+    margin-bottom: 20px; 
 
+}
+    
 ul#lista-de-compras {
-    list-style-type: none; /* Remove os marcadores */
-    padding: 0;
+    list-style-type: none; 
     margin-top: 20px;
 }
 
 ul#lista-de-compras li {
-    margin-bottom: 10px; /* Espaçamento entre os itens */
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -120,8 +118,8 @@ h2 {
 }
 
 #finalizar-compra {
-    display: block; /* Faz com que o botão seja tratado como um bloco */
-    margin: 20px auto; /* Centraliza o botão horizontalmente */
+    display: block; 
+    margin: 20px auto;
 }
 
 header {
@@ -131,4 +129,3 @@ header {
 #historico-compras {
     text-align: center;
 }
-
