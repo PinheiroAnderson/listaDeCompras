@@ -1,0 +1,134 @@
+:root {
+    --blue: #6495ed;
+    --white: #f5f5f5;
+    --black: #000000;
+}
+
+* {
+    color: var(--fontColor);
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: var(--bg);
+}
+
+header {
+    color: rgb(253, 249, 249);
+    text-align: center;
+    font-size: 50px;
+}
+
+section {
+    background: #f5f5f5;
+    border-radius: 10px;
+    padding: 15px;
+    width: 500pt;
+    margin: auto;
+    box-shadow: 3px 3px 10px #000000;
+    text-align: center; /* Centraliza o conteúdo da seção */
+}
+
+footer {
+    --fontColor: var(--white);
+    text-align: center;
+    font-style: italic;
+}
+
+.light-theme {
+    --bg: var(--blue);
+    --fontColor: var(--black);
+    --btnFontColor: var(--white);
+    --btnBg: var(--black);
+}
+
+.dark-theme {
+    --bg: var(--black);
+    --fontColor: var(--black);
+    --btnFontColor: var(--black);
+    --btnBg: var(--white);
+}
+
+.btnTema {
+    color: var(--btnFontColor);
+    background-color: var(--btnBg);
+    position: relative; /* Corrige a posição */
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    border: none;
+}
+
+.btnTema:focus {
+    outline-style: none;
+}
+
+select {
+    width: 150px;
+}
+
+/* Diminuir o tamanho das caixas de input para preço e quantidade */
+li .preco input, li .quantidade input {
+    width: 60px;  /* Define a largura em 60 pixels */
+    padding: 5px; /* Um padding pequeno para inputs compactos */
+    font-size: 14px;  /* Tamanho de fonte ajustado */
+    text-align: center; /* Alinhamento centralizado */
+}
+
+/* Melhorando o alinhamento dos elementos */
+li span {
+    display: flex;
+    align-items: center;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Ajuste para os campos de entrada de novos itens */
+#novo-item input[type="text"],
+#novo-item input[type="number"] {
+    width: 120px;  /* Define uma largura compacta */
+    padding: 5px;  /* Padding para deixar os inputs mais confortáveis */
+    font-size: 14px;  /* Tamanho de fonte ajustado */
+    margin-right: 10px; /* Espaço entre os campos de entrada */
+}
+
+#novo-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Espaçamento entre os elementos */
+    margin-bottom: 20px; /* Espaço abaixo do formulário */
+}
+
+ul#lista-de-compras {
+    list-style-type: none; /* Remove os marcadores */
+    padding: 0;
+    margin-top: 20px;
+}
+
+ul#lista-de-compras li {
+    margin-bottom: 10px; /* Espaçamento entre os itens */
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+#finalizar-compra {
+    display: block; /* Faz com que o botão seja tratado como um bloco */
+    margin: 20px auto; /* Centraliza o botão horizontalmente */
+}
+
+header {
+    text-align: center;
+}
+
+#historico-compras {
+    text-align: center;
+}
+
