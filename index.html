@@ -8,13 +8,15 @@
 </head>
 <body class="light-theme">
 
-    <header> Lista de Compras </header>
+    <header class="site-header">Lista de Compras</header>
     
-    <section>
-        <input type="text" id="nome-item" placeholder="Nome do item" />
-        <input type="number" id="preco-item" placeholder="Preço" step="0.01" />
-        <input type="number" id="quantidade-item" placeholder="Quantidade" value="1" />
-        <button id="adicionar-item">Adicionar Item</button>
+    <section class="main-content">
+        <div class="input-container">
+            <input type="text" id="nome-item" placeholder="Nome do item" />
+            <input type="number" id="preco-item" placeholder="Preço" step="0.01" />
+            <input type="number" id="quantidade-item" placeholder="Quantidade" value="1" />
+            <button id="adicionar-item">Adicionar Item</button>
+        </div>
         
         <!-- Exibir itens da lista -->
         <ul id="lista-de-compras"></ul>
@@ -28,7 +30,7 @@
         <ul id="historico-compras"></ul>
     </section>
 
-    <footer>
+    <footer class="site-footer">
         <p>&#174; APService </p> 
         <button class="btnTema" onclick="toggleTema()">Tema escuro</button>
     </footer>
