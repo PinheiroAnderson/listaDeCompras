@@ -28,7 +28,10 @@ JavaScript: Funcionalidade dinâmica e manipulação do DOM.
 Adicionar Itens:
 
 Preencha os campos "Nome do item", "Preço" e "Quantidade".
+Para montar sua lista crie seus intens com valor 0 e quantidade 1.
 Clique no botão "Adicionar Item" para incluir o item na lista.
+Após sua lista pronta, conforme for pegando seus itens atualize o valor e quantidade. 
+E marque o caixa ao lado para que o valor e quantidade seja incluido no valor.
 
 Editar Itens:
 
