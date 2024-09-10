@@ -28,7 +28,7 @@ section {
     border-radius: 10px;
     padding: 15px;
     max-width: 90%; /* Ajustado para responsividade */
-    margin: auto;
+    margin: 8px;
     box-shadow: 3px 3px 10px #000000;
     text-align: center;
 }
