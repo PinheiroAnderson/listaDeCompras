@@ -19,7 +19,7 @@ body {
 header {
     color: rgb(253, 249, 249);
     text-align: center;
-    font-size: 2rem; /* Ajustado para tamanho relativo */
+    font-size: 2rem; 
     margin: 0.5rem;
 }
 
@@ -28,7 +28,7 @@ section {
     border-radius: 10px;
     padding: 15px;
     max-width: 90%; /* Ajustado para responsividade */
-    margin: 8px;
+    margin: auto;
     box-shadow: 3px 3px 10px #000000;
     text-align: center;
 }
@@ -48,7 +48,7 @@ footer {
 
 .dark-theme {
     --bg: var(--black);
-    --fontColor: var(--black); /* Corrigido para contraste adequado */
+    --fontColor: var(--black);
     --btnFontColor: var(--black);
     --btnBg: var(--white);
 }
@@ -61,7 +61,7 @@ footer {
     width: 100px;
     border-radius: 10px;
     border: none;
-    font-size: 1rem; /* Ajustado para tamanho relativo */
+    font-size: 1rem; 
 }
 
 .btnTema:focus {
@@ -69,14 +69,14 @@ footer {
 }
 
 select {
-    width: 100%; /* Ajustado para responsividade */
+    width: 100%; 
     max-width: 150px;
 }
 
 li .preco input, li .quantidade input {
     width: 60px;  
     padding: 5px; 
-    font-size: 0.875rem; /* Ajustado para tamanho relativo */
+    font-size: 0.875rem; 
     text-align: center; 
 }
 
@@ -95,7 +95,7 @@ li {
 #novo-item input[type="number"] {
     width: 100px;  
     padding: 5px; 
-    font-size: 0.875rem; /* Ajustado para tamanho relativo */
+    font-size: 0.875rem; 
     margin-right: 10px; 
 }
 
@@ -128,10 +128,10 @@ h2 {
     margin: 20px auto;
 }
 
-/* Ajustes de estilo para tamanhos de tela menores */
+
 @media (max-width: 600px) {
     header {
-        font-size: 1.5rem; /* Reduzido para tamanhos menores */
+        font-size: 1.5rem; 
     }
 
     section {
@@ -140,16 +140,16 @@ h2 {
     }
 
     .btnTema {
-        width: 80px; /* Ajustado para tamanhos menores */
+        width: 80px; 
     }
 
     #novo-item input[type="text"],
     #novo-item input[type="number"] {
-        width: 80px; /* Ajustado para tamanhos menores */
+        width: 80px; 
     }
 
     select {
         width: 100%;
-        max-width: 100px; /* Ajustado para tamanhos menores */
+        max-width: 100px; 
     }
 }
