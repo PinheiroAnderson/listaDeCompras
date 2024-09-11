@@ -78,6 +78,9 @@ botaoFinalizar.addEventListener('click', () => {
       comprasAnteriores.push({ data: dataAtual, valor: total })
       localStorage.setItem('historicoCompras', JSON.stringify(comprasAnteriores))
   
+      //Limpa a lista criada
+      listaDeCompras.innerHTML = ''
+      
       // Atualizar o valor total na tela
       valorTotal.innerText = total.toFixed(2)
       
