@@ -57,14 +57,16 @@ function adicionarItem(nome, preco, quantidade, marcado = false) {
 // Lidar com o botão de adicionar novo item
 botaoAdicionar.addEventListener('click', () => {
   const nome = nomeItemInput.value
-  const preco = parseFloat(precoItemInput.value)
-  const quantidade = parseInt(quantidadeItemInput.value)
+  const preco = parseFloat(precoItemInput.value) || 0 // Se não for fornecido, define 0 como preço
+  const quantidade = parseInt(quantidadeItemInput.value) || 1 // Se não for fornecido, define 1 como quantidade
 
-  if (nome && !isNaN(preco) && !isNaN(quantidade)) {
+  if (nome) { // Verifica apenas se o nome foi fornecido
     adicionarItem(nome, preco, quantidade)
     nomeItemInput.value = ''
     precoItemInput.value = ''
     quantidadeItemInput.value = '1'
+  } else {
+    alert('O nome do item é obrigatório!')
   }
 })
 
