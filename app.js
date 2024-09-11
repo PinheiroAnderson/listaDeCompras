@@ -29,27 +29,29 @@ function atualizarTotal() {
   
 
 // Função para adicionar um item na lista
-function adicionarItem(nome, preco, quantidade) {
+function adicionarItem(nome, preco, quantidade, marcado = false) {
     const li = document.createElement('li')
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
+    checkbox.checked = marcado
     checkbox.dataset.preco = preco
     checkbox.dataset.quantidade = quantidade
-    
+
     checkbox.addEventListener('change', atualizarTotal)
-    
-    const precoInput = `<span>R$ <input type="number" class="preco" value="${preco}" step="0.01"></span>`
-    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade" value="${quantidade}"></span>`
-    
+
+    const precoInput = `<span>R$ <input type="number" class="preco" value="${preco}" step="0.01" placeholder="Preço"></span>`
+    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade" value="${quantidade}" placeholder="Qtd"></span>`
+
     li.innerHTML = `${nome} ${precoInput} ${quantidadeInput}`
     li.prepend(checkbox)
-    
+
     // Adicionar event listeners para inputs editáveis
     li.querySelector('.preco').addEventListener('input', atualizarTotal)
     li.querySelector('.quantidade').addEventListener('input', atualizarTotal)
-    
+
     listaDeCompras.appendChild(li)
-  }
+}
+
   
 
 // Lidar com o botão de adicionar novo item
