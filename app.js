@@ -4,8 +4,6 @@ let total = 0
 const listaDeCompras = document.getElementById('lista-de-compras')
 const valorTotal = document.getElementById('valor-total')
 const nomeItemInput = document.getElementById('nome-item')
-const precoItemInput = document.getElementById('preco-item')
-const quantidadeItemInput = document.getElementById('quantidade-item')
 const botaoAdicionar = document.getElementById('adicionar-item')
 const botaoFinalizar = document.getElementById('finalizar-compra')
 const historicoCompras = document.getElementById('historico-compras')
@@ -28,26 +26,39 @@ function atualizarTotal() {
 }
 
 // Função para adicionar um item na lista
-function adicionarItem(nome, preco = 0, quantidade = 1, marcado = false) {
-    
+function adicionarItem(nome) {
     const li = document.createElement('li')
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
-    checkbox.checked = marcado
-    checkbox.dataset.preco = preco
-    checkbox.dataset.quantidade = quantidade
+    checkbox.checked = false
 
     checkbox.addEventListener('change', atualizarTotal)
 
-    const precoInput = `<span>R$ <input type="number" class="preco" value="${preco}" step="0.01" placeholder="Preço"></span>`
-    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade" value="${quantidade}" placeholder="Qtd"></span>`
+    // Campos para editar preço e quantidade
+    const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" placeholder="" disabled></span>`
+    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" placeholder="" disabled></span>`
+    const editarButton = `<button class="editar-item">Editar</button>`
 
-    li.innerHTML = `${nome} ${precoInput} ${quantidadeInput}`
+    li.innerHTML = `${nome} ${precoInput} ${quantidadeInput} ${editarButton}`
     li.prepend(checkbox)
 
-    // Adicionar event listeners para inputs editáveis
-    li.querySelector('.preco').addEventListener('input', atualizarTotal)
-    li.querySelector('.quantidade').addEventListener('input', atualizarTotal)
+    // Adicionar event listeners para inputs editáveis e botão de editar
+    const precoInputElement = li.querySelector('.preco');
+    const quantidadeInputElement = li.querySelector('.quantidade');
+
+    precoInputElement.addEventListener('input', atualizarTotal)
+    quantidadeInputElement.addEventListener('input', atualizarTotal)
+
+    li.querySelector('.editar-item').addEventListener('click', () => {
+        const preco = parseFloat(precoInputElement.value) || 0
+        const quantidade = parseInt(quantidadeInputElement.value) || 1
+        precoInputElement.disabled = !precoInputElement.disabled
+        quantidadeInputElement.disabled = !quantidadeInputElement.disabled
+        li.querySelector('.editar-item').textContent = precoInputElement.disabled ? 'Editar' : 'Salvar'
+        if (precoInputElement.disabled) {
+            atualizarTotal()
+        }
+    })
 
     listaDeCompras.appendChild(li)
 }
@@ -55,14 +66,10 @@ function adicionarItem(nome, preco = 0, quantidade = 1, marcado = false) {
 // Lidar com o botão de adicionar novo item
 botaoAdicionar.addEventListener('click', () => {
     const nome = nomeItemInput.value
-    const preco = parseFloat(precoItemInput.value) || 0
-    const quantidade = parseInt(quantidadeItemInput.value) || 1
 
     if (nome) {
-        adicionarItem(nome, preco, quantidade)
+        adicionarItem(nome)
         nomeItemInput.value = ''
-        precoItemInput.value = ''
-        quantidadeItemInput.value = '1'
     } else {
         alert('O nome do item é obrigatório!')
     }
@@ -82,9 +89,6 @@ botaoFinalizar.addEventListener('click', () => {
 
         // Atualizar o valor total na tela
         valorTotal.innerText = total.toFixed(2)
-
-        // Limpar a lista de compras atual
-        listaDeCompras.innerHTML = ''
 
         // Limpar a lista de compras atual
         listaDeCompras.innerHTML = ''
