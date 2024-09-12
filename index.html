@@ -8,13 +8,14 @@
 </head>
 <body class="light-theme">
 
-    <header> Lista de Compras </header>
+    <header>iList</header>
     
     <section>
-        <input type="text" id="nome-item" placeholder="Nome do item" />
-        <input type="number" id="preco-item" placeholder="Preço" step="0.01" />
-        <input type="number" id="quantidade-item" placeholder="Quantidade" value="1" />
-        <button id="adicionar-item">Adicionar Item</button>
+        <div id="novo-item">
+            <input type="text" id="nome-item" placeholder="Nome do item" />
+            
+            <button id="adicionar-item">Adicionar Item</button>
+        </div>
         
         <!-- Exibir itens da lista -->
         <ul id="lista-de-compras"></ul>
@@ -29,7 +30,7 @@
     </section>
 
     <footer>
-        <p>&#174; APService </p> 
+        <p>&#174; APService</p>
         <button class="btnTema" onclick="toggleTema()">Tema escuro</button>
     </footer>
 

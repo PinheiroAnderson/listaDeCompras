@@ -27,15 +27,14 @@ JavaScript: Funcionalidade dinâmica e manipulação do DOM.
 
 Adicionar Itens:
 
-Preencha os campos "Nome do item", "Preço" e "Quantidade".
-Para montar sua lista nomeie seu item.
-Clique no botão "Adicionar Item" para incluir o item na lista.
-Após sua lista pronta, conforme for pegando seus itens atualize o valor e quantidade. 
-E marque a caixa ao lado para que o valor e quantidade seja incluidos no valor total da compra.
+Preencha os campos "Nome do item" e clique em "Adicionar Item".
+Após sua lista pronta, conforme for pegando seus itens clique em "Editar" ao lado do seu item.
+Adicione o valor e a quantidade e clique em "Salvar" 
+E marque a caixa ao lado do item para que o valor e quantidade seja incluidos no valor total da compra.
 
 Editar Itens:
 
-Após adicionar um item, você pode editar o preço e a quantidade diretamente na lista.
+Após adicionar um item, você pode editar o preço e a quantidade diretamente na lista clicando em "Editar".
 
 Finalizar Compra:
 
