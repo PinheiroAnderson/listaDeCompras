@@ -1,7 +1,7 @@
                                                
                                                Lista de Compras
 
-                                                [Clique aqui](https://pinheiroanderson.github.io/listaDeCompras/)
+                                  https://pinheiroanderson.github.io/listaDeCompras/
 
                                                   Descrição
                                                   
