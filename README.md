@@ -1,7 +1,7 @@
                                                
-                                https://andiinps.github.io/listaDeCompras/
+                                               Lista de Compras
 
-                                             Lista de Compras
+                                                [Clique aqui](https://pinheiroanderson.github.io/listaDeCompras/)
 
                                                   Descrição
                                                   
