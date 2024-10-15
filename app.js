@@ -25,43 +25,62 @@ function atualizarTotal() {
     valorTotal.innerText = total.toFixed(2)
 }
 
-// Função para adicionar um item na lista
-function adicionarItem(nome) {
-    const li = document.createElement('li')
-    const checkbox = document.createElement('input')
-    checkbox.type = 'checkbox'
-    checkbox.checked = false
+// Função para ordenar a lista de compras
+function ordenarListaAlfabeticamente() {
+    const itens = Array.from(listaDeCompras.querySelectorAll('li'));
+    
+    itens.sort((a, b) => {
+        const nomeA = a.textContent.trim().toLowerCase();
+        const nomeB = b.textContent.trim().toLowerCase();
+        return nomeA.localeCompare(nomeB);
+    });
 
-    checkbox.addEventListener('change', atualizarTotal)
+    // Limpar a lista e adicionar os itens ordenados
+    listaDeCompras.innerHTML = '';
+    itens.forEach(item => listaDeCompras.appendChild(item));
+}
+
+// função de adicionar item para chamar a ordenação
+function adicionarItem(nome) {
+    const li = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = false;
+
+    checkbox.addEventListener('change', atualizarTotal);
 
     // Campos para editar preço e quantidade
-    const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" placeholder="" disabled></span>`
-    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" placeholder="" disabled></span>`
-    const editarButton = `<button class="editar-item">Editar</button>`
+    const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" placeholder="" disabled></span>`;
+    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" placeholder="" disabled></span>`;
+    const editarButton = `<button class="editar-item">Editar</button>`;
 
-    li.innerHTML = `${nome} ${precoInput} ${quantidadeInput} ${editarButton}`
-    li.prepend(checkbox)
+    li.innerHTML = `${nome} ${precoInput} ${quantidadeInput} ${editarButton}`;
+    li.prepend(checkbox);
 
     // Adicionar event listeners para inputs editáveis e botão de editar
     const precoInputElement = li.querySelector('.preco');
     const quantidadeInputElement = li.querySelector('.quantidade');
 
-    precoInputElement.addEventListener('input', atualizarTotal)
-    quantidadeInputElement.addEventListener('input', atualizarTotal)
+    precoInputElement.addEventListener('input', atualizarTotal);
+    quantidadeInputElement.addEventListener('input', atualizarTotal);
 
     li.querySelector('.editar-item').addEventListener('click', () => {
-        const preco = parseFloat(precoInputElement.value) || 0
-        const quantidade = parseInt(quantidadeInputElement.value) || 1
-        precoInputElement.disabled = !precoInputElement.disabled
-        quantidadeInputElement.disabled = !quantidadeInputElement.disabled
-        li.querySelector('.editar-item').textContent = precoInputElement.disabled ? 'Editar' : 'Salvar'
+        const preco = parseFloat(precoInputElement.value) || 0;
+        const quantidade = parseInt(quantidadeInputElement.value) || 1;
+        precoInputElement.disabled = !precoInputElement.disabled;
+        quantidadeInputElement.disabled = !quantidadeInputElement.disabled;
+        li.querySelector('.editar-item').textContent = precoInputElement.disabled ? 'Editar' : 'Salvar';
         if (precoInputElement.disabled) {
-            atualizarTotal()
+            atualizarTotal();
         }
-    })
+    });
 
-    listaDeCompras.appendChild(li)
+    listaDeCompras.appendChild(li);
+
+    // Ordenar a lista após adicionar o item
+    ordenarListaAlfabeticamente();
 }
+
 
 // Lidar com o botão de adicionar novo item
 botaoAdicionar.addEventListener('click', () => {
