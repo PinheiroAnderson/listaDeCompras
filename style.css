@@ -1,136 +1,209 @@
 :root {
-    --blue: #6495ed;
-    --white: #f5f5f5;
-    --black: #000000;
+  --blue: #6495ed;
+  --white: #f5f5f5;
+  --black: #000000;
 }
 
 * {
-    color: var(--fontColor);
-    font-family: Arial, sans-serif;
-    box-sizing: border-box; 
+  color: var(--fontColor);
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-    background: var(--bg);
+  background: var(--bg);
 }
 
 header {
-    color: rgb(253, 249, 249);
-    text-align: center;
-    font-size: 50px;
+  color: rgb(253, 249, 249);
+  text-align: center;
+  font-size: 50px;
 }
 
 section {
-    background: #f5f5f5;
-    border-radius: 10px;
-    padding: 15px;
-    width: 100%;
-    max-width: 500px; 
-    margin: 10px auto; 
-    box-shadow: 3px 3px 10px #000000;
-    text-align: center;
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%;
+  max-width: 500px;
+  margin: 10px auto;
+  box-shadow: 3px 3px 10px #000000;
+  text-align: center;
 }
-
 
 .text-input {
-    width: 60px; 
-    padding: 0.3em;
-    font-size: 14px;
-    text-align: center;
+  width: 60px;
+  padding: 0.3em;
+  font-size: 14px;
+  text-align: center;
 }
 
-
 @media (max-width: 768px) {
-    .text-input {
-        width: 60px;
-    }
+  body {
+    padding: 0 15px;
+    /* Ajustar a largura da página */
+  }
+
+  header {
+    font-size: 40px;
+  }
+
+  section {
+    max-width: 90%;
+    /* Tornar o conteúdo mais responsivo */
+    margin: 20px auto;
+  }
+
+  .text-input {
+    width: 80px;
+  }
+
+  #novo-item {
+    flex-wrap: wrap;
+    /* Permitindo que os inputs se ajustem */
+    gap: 5px;
+  }
+
+  li .preco input,
+  li .quantidade input {
+    width: 70px;
+  }
+
+  .btnTema {
+    width: 120px;
+    height: 45px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 480px) {
-    .text-input {
-        width: 45px; 
-    }
+  body {
+    padding: 0 10px;
+    /* Ajustar a largura da página */
+  }
+
+  header {
+    font-size: 30px;
+  }
+
+  section {
+    max-width: 100%;
+    /* Deixar a seção ocupar toda a largura */
+    padding: 10px;
+  }
+
+  .text-input {
+    width: 50px;
+  }
+
+  #novo-item {
+    flex-direction: column;
+    /* Organiza os itens em coluna em vez de linha */
+    align-items: center;
+  }
+
+  li .preco input,
+  li .quantidade input {
+    width: 60px;
+    /* Ajuste no tamanho dos inputs */
+  }
+
+  .btnTema {
+    width: 110px;
+    height: 40px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  footer {
+    font-size: 14px;
+    /* Menor tamanho para footer em dispositivos pequenos */
+  }
 }
 
 li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 li .preco input,
 li .quantidade input {
-    width: 50px; 
+  width: 50px;
 }
 
 .light-theme {
-    --bg: var(--blue);
-    --fontColor: var(--black);
-    --btnFontColor: var(--white);
-    --btnBg: var(--black);
+  --bg: var(--blue);
+  --fontColor: var(--black);
+  --btnFontColor: var(--white);
+  --btnBg: var(--black);
 }
 
 .dark-theme {
-    --bg: var(--black);
-    --fontColor: var(--black);
-    --btnFontColor: var(--black);
-    --btnBg: var(--white);
+  --bg: var(--black);
+  --fontColor: var(--black);
+  --btnFontColor: var(--black);
+  --btnBg: var(--white);
 }
 
 #novo-item input[type="number"] {
-    width: 110px;
-    padding: 0.3em;
-    font-size: 14px;
-    margin-right: 10px;
+  width: 110px;
+  padding: 0.3em;
+  font-size: 14px;
+  margin-right: 10px;
 }
 
 #novo-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 ul#lista-de-compras {
-    list-style-type: none;
-    margin-top: 20px;
-    padding: 0;
+  list-style-type: none;
+  margin-top: 20px;
+  padding: 0;
 }
 
 ul#lista-de-compras li {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 h2 {
-    text-align: center;
+  text-align: center;
 }
 
 #finalizar-compra {
-    display: block;
-    margin: 20px auto;
+  display: block;
+  margin: 20px auto;
 }
 
 footer {
-    --fontColor: var(--white);
-    text-align: center;
-    font-style: italic;
+  --fontColor: var(--white);
+  text-align: center;
+  font-style: italic;
 }
 
 .btnTema {
-    color: var(--btnFontColor);
-    background-color: var(--btnBg);
-    position: relative;
-    height: 50px;
-    width: 100px;
-    border-radius: 10px;
-    border: none;
+  color: var(--btnFontColor);
+  background-color: var(--btnBg);
+  position: relative;
+  height: 50px;
+  width: 100px;
+  border-radius: 10px;
+  border: none;
 }
 
 .btnTema:hover {
-    background-color: var(--btnFontColor);
-    color: var(--btnBg);
-    cursor: pointer;
+  background-color: var(--btnFontColor);
+  color: var(--btnBg);
+  cursor: pointer;
 }

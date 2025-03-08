@@ -131,6 +131,18 @@ function mostrarHistoricoCompras() {
     });
 }
 
+// Função para atualizar o ano no footer
+function atualizarAno() {
+    const anoAtual = new Date().getFullYear(); // Obtém o ano atual
+    document.getElementById('anoAtual').textContent = anoAtual; // Atualiza o texto do elemento com o ano
+}
+
+// Chama a função assim que o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarAno(); // Atualiza o ano quando a página for carregada
+});
+
+
 // Função para alternar o tema
 function toggleTema() {
     const body = document.body

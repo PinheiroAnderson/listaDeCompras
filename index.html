@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Compras</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="light-theme">
 
     <header>iList</header>
-    
+
     <section>
         <div id="novo-item">
             <input type="text" id="nome-item" placeholder="Nome do item" />
-            
             <button id="adicionar-item">Adicionar Item</button>
         </div>
-        
+
         <!-- Exibir itens da lista -->
         <ul id="lista-de-compras"></ul>
-        
+
         <!-- Exibir valor total -->
         <h2>Total: R$ <span id="valor-total">0.00</span></h2>
         <button id="finalizar-compra">Finalizar Compra</button>
-        
+
         <!-- Exibir histórico de compras -->
         <h2>Histórico de Compras</h2>
         <ul id="historico-compras"></ul>
     </section>
 
     <footer>
-        <p>&#174; APService</p>
+        <p>&#174; <span id="anoAtual"></span> Desenvolvido por Anderson Pinheiro</p>
         <button class="btnTema" onclick="toggleTema()">Tema escuro</button>
     </footer>
 
     <script src="app.js"></script>
 </body>
+
 </html>
