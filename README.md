@@ -1,6 +1,7 @@
 Lista de Compras 🛒
 
-Visualizar Aplicativo Online
+Visualizar Aplicativo Online:
+https://pinheiroanderson.github.io/listaDeCompras/
 
 Descrição
 
