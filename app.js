@@ -8,7 +8,9 @@ const botaoAdicionar = document.getElementById('adicionar-item')
 const botaoFinalizar = document.getElementById('finalizar-compra')
 const historicoCompras = document.getElementById('historico-compras')
 
-// Função para atualizar o valor total
+// ------------------- Funções ------------------- //
+
+// Atualiza o valor total
 function atualizarTotal() {
     total = 0
     const itens = document.querySelectorAll('#lista-de-compras li')
@@ -16,134 +18,189 @@ function atualizarTotal() {
     itens.forEach(item => {
         const checkbox = item.querySelector('input[type="checkbox"]')
         if (checkbox.checked) {
-            const preco = parseFloat(item.querySelector('.preco').value)
-            const quantidade = parseInt(item.querySelector('.quantidade').value)
+            const preco = parseFloat(item.querySelector('.preco').value) || 0
+            const quantidade = parseInt(item.querySelector('.quantidade').value) || 0
             total += preco * quantidade
         }
     })
     
     valorTotal.innerText = total.toFixed(2)
+    salvarProgresso() // salva progresso sempre que atualiza
 }
 
-// Função para ordenar a lista de compras
+// Ordena a lista alfabeticamente
 function ordenarListaAlfabeticamente() {
     const itens = Array.from(listaDeCompras.querySelectorAll('li'));
     
     itens.sort((a, b) => {
-        const nomeA = a.textContent.trim().toLowerCase();
-        const nomeB = b.textContent.trim().toLowerCase();
+        const nomeA = a.querySelector('.item-nome').textContent.trim().toLowerCase();
+        const nomeB = b.querySelector('.item-nome').textContent.trim().toLowerCase();
         return nomeA.localeCompare(nomeB);
     });
 
-    // Limpar a lista e adicionar os itens ordenados
     listaDeCompras.innerHTML = '';
     itens.forEach(item => listaDeCompras.appendChild(item));
 }
 
-// função de adicionar item para chamar a ordenação
-function adicionarItem(nome) {
+// Adiciona item à lista
+function adicionarItem(nome, precoValue = '', quantidadeValue = '', marcado = false) {
     const li = document.createElement('li');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.checked = false;
+    checkbox.checked = marcado;
 
     checkbox.addEventListener('change', atualizarTotal);
 
-    // Campos para editar preço e quantidade
-    const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" placeholder="" disabled></span>`;
-    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" placeholder="" disabled></span>`;
-    const editarButton = `<button class="editar-item">Editar</button>`;
+    const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" placeholder="" value="${precoValue}" disabled></span>`;
+    const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" placeholder="" value="${quantidadeValue}" disabled></span>`;
 
-    li.innerHTML = `${nome} ${precoInput} ${quantidadeInput} ${editarButton}`;
+    li.innerHTML = `
+      <span class="item-nome">${nome}</span>
+      ${precoInput} 
+      ${quantidadeInput} 
+      <div class="botoes-item">
+        <button class="editar-item btn-editar-item">Editar</button>
+        <button class="excluir-item btn-excluir-item">Excluir</button>
+      </div>
+    `;
     li.prepend(checkbox);
 
-    // Adicionar event listeners para inputs editáveis e botão de editar
     const precoInputElement = li.querySelector('.preco');
     const quantidadeInputElement = li.querySelector('.quantidade');
+    const btnEditar = li.querySelector('.editar-item');
+    const btnExcluir = li.querySelector('.excluir-item');
 
     precoInputElement.addEventListener('input', atualizarTotal);
     quantidadeInputElement.addEventListener('input', atualizarTotal);
 
-    li.querySelector('.editar-item').addEventListener('click', () => {
+ // Botão editar/salvar
+btnEditar.addEventListener('click', () => {
+    const isDisabled = precoInputElement.disabled;
+    // Alterna habilitado/desabilitado
+    precoInputElement.disabled = !isDisabled;
+    quantidadeInputElement.disabled = !isDisabled;
+
+    if (isDisabled) {
+        // Entrou no modo edição → botão fica verde
+        btnEditar.textContent = 'Salvar';
+        btnEditar.classList.remove('btn-editar-item');
+        btnEditar.classList.add('btn-salvar');
+    } else {
+        // Saiu do modo edição → botão volta a ser amarelo
+        btnEditar.textContent = 'Editar';
+        btnEditar.classList.remove('btn-salvar');
+        btnEditar.classList.add('btn-editar-item');
+        atualizarTotal(); // Atualiza o total quando salvar
+    }
+});
+
+
+// Botão excluir → já está certo
+btnExcluir.addEventListener('click', () => {
+    if (checkbox.checked) {
         const preco = parseFloat(precoInputElement.value) || 0;
         const quantidade = parseInt(quantidadeInputElement.value) || 1;
-        precoInputElement.disabled = !precoInputElement.disabled;
-        quantidadeInputElement.disabled = !quantidadeInputElement.disabled;
-        li.querySelector('.editar-item').textContent = precoInputElement.disabled ? 'Editar' : 'Salvar';
-        if (precoInputElement.disabled) {
-            atualizarTotal();
-        }
-    });
+        total -= preco * quantidade;
+        valorTotal.innerText = total.toFixed(2);
+    }
+    li.remove();
+    salvarProgresso();
+});
+
 
     listaDeCompras.appendChild(li);
-
-    // Ordenar a lista após adicionar o item
     ordenarListaAlfabeticamente();
+    salvarProgresso();
 }
 
+// Salva o progresso da lista atual
+function salvarProgresso() {
+    const itens = []
+    document.querySelectorAll('#lista-de-compras li').forEach(item => {
+        itens.push({
+            nome: item.querySelector('.item-nome').textContent,
+            preco: item.querySelector('.preco').value,
+            quantidade: item.querySelector('.quantidade').value,
+            marcado: item.querySelector('input[type="checkbox"]').checked
+        })
+    })
+    localStorage.setItem('progressoCompras', JSON.stringify(itens))
+}
 
-// Lidar com o botão de adicionar novo item
-botaoAdicionar.addEventListener('click', () => {
-    const nome = nomeItemInput.value
+// Carrega o progresso salvo
+function carregarProgresso() {
+    const progresso = JSON.parse(localStorage.getItem('progressoCompras')) || []
+    progresso.forEach(p => {
+        adicionarItem(p.nome, p.preco, p.quantidade, p.marcado)
+    })
+    atualizarTotal()
+}
 
-    if (nome) {
-        adicionarItem(nome)
-        nomeItemInput.value = ''
-    } else {
-        alert('O nome do item é obrigatório!')
-    }
-})
-
-// Função para finalizar a compra e salvar no localStorage
+// Finalizar compra
 botaoFinalizar.addEventListener('click', () => {
-    if (total > 0) {
-        // Obter a data atual
-        const date = new Date()
-        const dataAtual = date.toLocaleDateString('pt-BR') // Formato: DD/MM/AAAA
+    const itens = document.querySelectorAll('#lista-de-compras li input[type="checkbox"]:checked');
 
-        // Salvar o valor e a data no localStorage
-        const comprasAnteriores = JSON.parse(localStorage.getItem('historicoCompras')) || []
-        comprasAnteriores.push({ data: dataAtual, valor: total })
-        localStorage.setItem('historicoCompras', JSON.stringify(comprasAnteriores))
+    if (itens.length > 0 && total > 0) {
+        const date = new Date();
+        const dataAtual = date.toLocaleDateString('pt-BR');
 
-        // Atualizar o valor total na tela
-        valorTotal.innerText = total.toFixed(2)
+        // Salva no histórico
+        const comprasAnteriores = JSON.parse(localStorage.getItem('historicoCompras')) || [];
+        comprasAnteriores.push({ data: dataAtual, valor: total });
+        localStorage.setItem('historicoCompras', JSON.stringify(comprasAnteriores));
 
-        // Limpar a lista de compras atual
-        listaDeCompras.innerHTML = ''
+        // Limpa lista e progresso
+        listaDeCompras.innerHTML = '';
+        localStorage.removeItem('progressoCompras');
 
-        // Atualizar histórico de compras
-        mostrarHistoricoCompras()
+        // Atualiza histórico na tela
+        mostrarHistoricoCompras();
+
+        // **Mantém o valor total na tela** (não zera)
+        alert('Compra finalizada e salva no histórico!');
     } else {
-        alert('Por favor, selecione pelo menos um item.')
+        // Nenhum item selecionado → zera valor total e alerta
+        total = 0;
+        valorTotal.innerText = total.toFixed(2);
+        alert('Nenhum item na lista! Inicie uma nova compra.');
     }
-})
+});
 
-// Função para exibir o histórico de compras
+
+
+// Mostrar histórico
 function mostrarHistoricoCompras() {
     const comprasAnteriores = JSON.parse(localStorage.getItem('historicoCompras')) || []
     historicoCompras.innerHTML = ''
 
     comprasAnteriores.forEach(compra => {
-        const li = document.createElement('li')
-        li.textContent = `${compra.data}: R$ ${compra.valor.toFixed(2)}`
-        historicoCompras.appendChild(li)
-    });
+        if (compra.valor !== undefined && !isNaN(compra.valor)) {
+            const li = document.createElement('li')
+            li.textContent = `${compra.data}: R$ ${parseFloat(compra.valor).toFixed(2)}`
+            historicoCompras.appendChild(li)
+        }
+    })
 }
 
-// Função para atualizar o ano no footer
-function atualizarAno() {
-    const anoAtual = new Date().getFullYear(); // Obtém o ano atual
-    document.getElementById('anoAtual').textContent = anoAtual; // Atualiza o texto do elemento com o ano
-}
+// Limpar histórico
+const btnLimparHistorico = document.getElementById('limpar-historico');
 
-// Chama a função assim que o DOM estiver carregado
-document.addEventListener('DOMContentLoaded', () => {
-    atualizarAno(); // Atualiza o ano quando a página for carregada
+btnLimparHistorico.addEventListener('click', () => {
+    if (confirm('Tem certeza que deseja limpar todo o histórico de compras?')) {
+        localStorage.removeItem('historicoCompras'); // limpa o histórico
+        mostrarHistoricoCompras(); // atualiza a tela
+        alert('Histórico de compras limpo!');
+    }
 });
 
 
-// Função para alternar o tema
+// Atualiza ano no footer
+function atualizarAno() {
+    const anoAtual = new Date().getFullYear();
+    document.getElementById('anoAtual').textContent = anoAtual;
+}
+
+// Alternar tema
 function toggleTema() {
     const body = document.body
     const btn = document.querySelector('.btnTema')
@@ -157,5 +214,27 @@ function toggleTema() {
     }
 }
 
-// Carregar o histórico ao iniciar
-mostrarHistoricoCompras()
+// ------------------- Eventos ------------------- //
+
+botaoAdicionar.addEventListener('click', () => {
+    const nome = nomeItemInput.value
+    if (nome) {
+        adicionarItem(nome)
+        nomeItemInput.value = ''
+    } else {
+        alert('O nome do item é obrigatório!')
+    }
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarAno()
+    mostrarHistoricoCompras()
+    carregarProgresso()
+})
+
+// Aviso antes de sair/recarregar
+window.addEventListener('beforeunload', (event) => {
+    event.preventDefault()
+    event.returnValue = ''
+})
+
