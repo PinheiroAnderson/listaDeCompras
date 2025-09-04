@@ -1,68 +1,95 @@
-                                               
-                                               Lista de Compras
+Lista de Compras 🛒
 
-                                  https://pinheiroanderson.github.io/listaDeCompras/
+Visualizar Aplicativo Online
 
-                                                  Descrição
-                                                  
-O Lista de Compras é uma aplicação web que permite ao usuário gerenciar sua lista de compras de forma simples e eficiente.
-O usuário pode adicionar itens à lista, especificar o preço e a quantidade, e o valor total da compra é calculado e atualizado automaticamente.
- Além disso, o histórico de compras é salvo e exibido para referência futura.
+Descrição
 
-                                               Funcionalidades
+O Lista de Compras é um aplicativo web que permite ao usuário gerenciar suas compras de forma prática e eficiente.
+Você pode adicionar itens, definir preço e quantidade, atualizar automaticamente o valor total, salvar histórico de compras e alternar entre tema claro e escuro.
 
-Adicionar itens à lista com nome, preço e quantidade.
-Editar o preço e a quantidade dos itens já adicionados.
-Atualizar automaticamente o valor total da compra conforme os itens são alterados.
-Finalizar a compra e salvar o histórico com data e valor total.
+O aplicativo também salva automaticamente o progresso atual, evitando a perda de dados ao atualizar a página ou fechar o navegador.
+
+Funcionalidades
+
+Adicionar itens com nome, preço e quantidade.
+
+Editar preço e quantidade de itens existentes.
+
+Marcar itens selecionados para inclusão no cálculo do total.
+
+Atualização automática do valor total conforme alterações na lista.
+
+Finalizar compra:
+
+Salva no histórico de compras com data e valor total.
+
+Limpa a lista de compras mas mantém o valor total como referência.
+
+Se não houver itens na lista, zera o total e solicita iniciar nova compra.
+
+Histórico de compras:
+
+Exibe todas as compras anteriores com data e valor.
+
+Possibilidade de limpar o histórico completo.
+
 Alternar entre temas claro e escuro.
 
-                                           Tecnologias Utilizadas
+Salvamento automático do progresso da lista atual, evitando perda de dados ao atualizar a página ou sair do navegador.
 
-HTML: Estrutura da página.
-CSS: Estilização da página.
-JavaScript: Funcionalidade dinâmica e manipulação do DOM.
+Tecnologias Utilizadas
 
-                                                Como Usar
+HTML – Estrutura da página.
 
-Adicionar Itens:
+CSS – Estilização, temas e responsividade.
 
-Preencha os campos "Nome do item" e clique em "Adicionar Item".
-Após sua lista pronta, conforme for pegando seus itens clique em "Editar" ao lado do seu item.
-Adicione o valor e a quantidade e clique em "Salvar" 
-E marque a caixa ao lado do item para que o valor e quantidade seja incluidos no valor total da compra.
+JavaScript – Lógica da aplicação, manipulação do DOM e localStorage.
 
-Editar Itens:
+Como Usar
+Adicionar Itens
 
-Após adicionar um item, você pode editar o preço e a quantidade diretamente na lista clicando em "Editar".
+Digite o nome do item no campo "Nome do item".
 
-Finalizar Compra:
+Clique em "Adicionar Item".
 
-Clique no botão "Finalizar Compra" para calcular o valor total e salvar o histórico de compras.
-O valor total será exibido na tela e o histórico será atualizado automaticamente.
+Para definir preço e quantidade, clique em "Editar", insira os valores e clique em "Salvar".
 
-Alternar Tema:
+Marque a caixa ao lado do item para incluí-lo no cálculo do valor total.
 
-Clique no botão "Tema escuro" ou "Tema claro" no rodapé para alternar entre os temas claro e escuro.
+Finalizar Compra
 
-                                        Como Rodar Localmente
+Clique em "Finalizar Compra" para salvar no histórico.
 
-Clone o Repositório:
+A lista será limpa, mas o valor total da última compra será mantido.
 
-bash Copiar código git clone https://github.com/seu-usuario/lista-de-compras.git
+Caso a lista esteja vazia, o total será zerado e o aplicativo solicitará iniciar uma nova lista.
 
-Navegue até o Diretório:
+Histórico de Compras
 
-bash Copiar código cd lista-de-compras
+O histórico exibe todas as compras anteriores com data e valor.
 
-Abra o Arquivo HTML:
+Para limpar, clique no botão "Limpar Histórico".
+
+Alternar Tema
+
+Use o botão no rodapé para alternar entre Tema Claro e Tema Escuro.
+
+Como Rodar Localmente
+
+Clone o repositório:
+
+git clone https://github.com/seu-usuario/lista-de-compras.git
+
+Navegue até o diretório do projeto:
+
+cd lista-de-compras
 
 Abra o arquivo index.html em um navegador web.
 
-                                        Estrutura do Projeto
+Estrutura do Projeto
 
-index.html: Arquivo HTML principal.
+index.html – Página principal do aplicativo.
 
-style.css: Arquivo de estilo CSS.
+style.css – Estilos, cores, temas e responsividade.
 
-app.js: Arquivo JavaScript com a lógica da aplicação.
+app.js – Lógica do aplicativo, manipulação de DOM e armazenamento local.

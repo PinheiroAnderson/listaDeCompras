@@ -1,0 +1,205 @@
+Documentação da Aplicação – Lista de Compras 🛒
+
+1. Visão Geral
+
+O Lista de Compras é um aplicativo web para gerenciar compras de forma prática e eficiente.
+Ele permite adicionar itens com preço e quantidade, calcular automaticamente o valor total, salvar histórico de compras, alternar temas, e salvar o progresso da lista em andamento para evitar perda de dados.
+
+2. Estrutura do Projeto
+lista-de-compras/
+│
+├─ index.html       → Estrutura da página
+├─ style.css        → Estilos, temas e responsividade
+└─ app.js           → Lógica da aplicação, manipulação do DOM e localStorage
+
+index.html
+
+Contém os elementos:
+
+Input para o nome do item (#nome-item)
+
+Botão de adicionar item (#adicionar-item)
+
+Lista de compras (#lista-de-compras)
+
+Botão de finalizar compra (#finalizar-compra)
+
+Histórico de compras (#historico-compras)
+
+Botão para limpar histórico (#limpar-historico)
+
+Botão para alternar tema (.btnTema)
+
+Elemento para mostrar o ano no rodapé (#anoAtual)
+
+style.css
+
+Define variáveis de cores, fontes e temas (claro e escuro)
+
+Estiliza inputs, botões e lista de itens
+
+Responsividade com media queries para telas pequenas
+
+Estiliza botões específicos: adicionar, editar, salvar, excluir, finalizar, limpar histórico
+
+app.js
+
+Contém toda a lógica do aplicativo
+
+Manipula DOM, eventos e localStorage
+
+Implementa todas as funcionalidades: adicionar, editar, excluir, finalizar, histórico, salvar progresso, alternar tema.
+
+3. Funcionalidades
+3.1 Adicionar Item
+adicionarItem(nome, precoValue = '', quantidadeValue = '', marcado = false)
+
+
+Cria um <li> na lista de compras.
+
+Permite informar nome, preço e quantidade.
+
+Cada item tem:
+
+Checkbox para marcar inclusão no total
+
+Input para preço (.preco) e quantidade (.quantidade) desabilitados por padrão
+
+Botões: Editar/Salvar (.editar-item) e Excluir (.excluir-item)
+
+Atualiza a lista alfabeticamente.
+
+Salva progresso automaticamente no localStorage.
+
+3.2 Editar/Salvar Item
+
+Botão Editar habilita os inputs de preço e quantidade e muda para Salvar.
+
+Botão Salvar desabilita os inputs e atualiza o valor total.
+
+Troca de cor:
+
+Editar → amarelo (btn-editar-item)
+
+Salvar → verde (btn-salvar)
+
+Evento associado:
+
+btnEditar.addEventListener('click', ...)
+
+3.3 Excluir Item
+
+Remove o item da lista.
+
+Se o checkbox estiver marcado, subtrai o valor do total.
+
+Salva progresso após exclusão.
+
+btnExcluir.addEventListener('click', ...)
+
+3.4 Atualizar Total
+function atualizarTotal()
+
+
+Percorre todos os itens da lista.
+
+Soma o valor de cada item marcado: preco * quantidade
+
+Atualiza o display do total (#valor-total)
+
+Salva o progresso em localStorage
+
+3.5 Finalizar Compra
+
+Salva a compra no histórico com data e valor total.
+
+Limpa a lista atual.
+
+Mantém o valor total na tela como referência.
+
+Se a lista estiver vazia, zera o total e pede para iniciar nova lista.
+
+botaoFinalizar.addEventListener('click', ...)
+
+3.6 Histórico de Compras
+function mostrarHistoricoCompras()
+
+
+Recupera compras do localStorage
+
+Exibe cada compra com data e valor
+
+Filtra valores inválidos
+
+Permite limpar todo o histórico com botão:
+
+btnLimparHistorico.addEventListener('click', ...)
+
+3.7 Salvar e Carregar Progresso
+
+Salva o estado da lista atual (nome, preço, quantidade, marcado) no localStorage.
+
+Carrega o progresso automaticamente ao abrir a página.
+
+function salvarProgresso()
+function carregarProgresso()
+
+3.8 Alternar Tema
+function toggleTema()
+
+
+Alterna entre light-theme e dark-theme
+
+Altera cores do fundo, texto e botões
+
+Botão no rodapé: .btnTema
+
+3.9 Atualizar Ano no Footer
+function atualizarAno()
+
+
+Atualiza automaticamente o ano atual no rodapé (#anoAtual)
+
+3.10 Prevenção de Perda de Dados
+
+Salva progresso automaticamente a cada alteração (checkbox, preço ou quantidade)
+
+Bloqueia refresh acidental em celulares:
+
+body {
+  overscroll-behavior-y: contain;
+}
+
+
+Evento beforeunload alerta o usuário ao tentar sair da página:
+
+window.addEventListener('beforeunload', ...)
+
+4. Eventos Importantes
+Evento	             Elemento	                         Função
+click	           #adicionar-item	             Adiciona novo item
+click	           .editar-item	                 Alterna entre editar e salvar
+click	           .excluir-item	             Exclui item da lista
+input	           .preco, .quantidade	         Atualiza total
+change	            input[type="checkbox"]	     Atualiza total
+click	           #finalizar-compra	      Finaliza compra e salva no histórico
+click	           #limpar-historico	         Limpa histórico de compras
+click	            .btnTema	                 Alterna tema claro/escuro
+DOMContentLoaded	document	       Carrega progresso, histórico e atualiza ano
+beforeunload	    window	               Alerta antes de sair/recarregar página
+
+5. LocalStorage
+
+progressoCompras – Salva itens em andamento.
+
+historicoCompras – Salva histórico de compras finalizadas.
+
+6. Boas Práticas do Código
+
+Modularidade: funções separadas para cada ação.
+
+Responsividade: compatível com celular e desktop.
+
+Persistência: progresso e histórico no localStorage.
+
+Acessibilidade: inputs claros e botões com cores distintas para cada ação.
