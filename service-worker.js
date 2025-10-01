@@ -4,7 +4,7 @@ const urlsToCache = [
   "/index.html",
   "/style.css",
   "/app.js",
-  "/icon/carrinho-de-compras.gif"
+  "/icon/carrinho-512.png"
 ];
 
 // Instala e guarda no cache
@@ -20,3 +20,16 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(response => response || fetch(event.request))
   );
 });
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) return caches.delete(key);
+        })
+      )
+    )
+  );
+});
+

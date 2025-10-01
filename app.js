@@ -7,8 +7,10 @@ const nomeItemInput = document.getElementById("nome-item");
 const botaoAdicionar = document.getElementById("adicionar-item");
 const botaoFinalizar = document.getElementById("finalizar-compra");
 const historicoCompras = document.getElementById("historico-compras");
-const btnLimparHistorico = document.getElementById("limpar-historico");
 const btnTema = document.querySelector(".btnTema");
+const btnInstalar = document.getElementById("btn-instalar");
+
+let deferredPrompt = null;
 
 // ------------------- Funções ------------------- //
 
@@ -27,7 +29,7 @@ function atualizarTotal() {
   });
 
   valorTotal.innerText = total.toFixed(2);
-  salvarProgresso(); // salva progresso sempre que atualiza
+  salvarProgresso();
 }
 
 // Ordena a lista alfabeticamente
@@ -52,18 +54,18 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   checkbox.checked = marcado;
   checkbox.addEventListener("change", atualizarTotal);
 
-  const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" placeholder="" value="${precoValue}" disabled></span>`;
-  const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" placeholder="" value="${quantidadeValue}" disabled></span>`;
+  const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" value="${precoValue}" disabled></span>`;
+  const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" value="${quantidadeValue}" disabled></span>`;
 
   li.innerHTML = `
-      <span class="item-nome">${nome}</span>
-      ${precoInput} 
-      ${quantidadeInput} 
-      <div class="botoes-item">
-        <button class="editar-item btn-editar-item">Editar</button>
-        <button class="excluir-item btn-excluir-item">Excluir</button>
-      </div>
-    `;
+    <span class="item-nome">${nome}</span>
+    ${precoInput}
+    ${quantidadeInput}
+    <div class="botoes-item">
+      <button class="editar-item btn-editar-item">Editar</button>
+      <button class="excluir-item btn-excluir-item">Excluir</button>
+    </div>
+  `;
   li.prepend(checkbox);
 
   const precoInputElement = li.querySelector(".preco");
@@ -74,7 +76,7 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   precoInputElement.addEventListener("input", atualizarTotal);
   quantidadeInputElement.addEventListener("input", atualizarTotal);
 
-  // Botão editar/salvar
+  // Editar/Salvar
   btnEditar.addEventListener("click", () => {
     const isDisabled = precoInputElement.disabled;
     precoInputElement.disabled = !isDisabled;
@@ -82,17 +84,15 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
 
     if (isDisabled) {
       btnEditar.textContent = "Salvar";
-      btnEditar.classList.remove("btn-editar-item");
-      btnEditar.classList.add("btn-salvar");
+      btnEditar.classList.replace("btn-editar-item", "btn-salvar");
     } else {
       btnEditar.textContent = "Editar";
-      btnEditar.classList.remove("btn-salvar");
-      btnEditar.classList.add("btn-editar-item");
+      btnEditar.classList.replace("btn-salvar", "btn-editar-item");
       atualizarTotal();
     }
   });
 
-  // Botão excluir
+  // Excluir
   btnExcluir.addEventListener("click", () => {
     if (checkbox.checked) {
       const preco = parseFloat(precoInputElement.value) || 0;
@@ -109,7 +109,7 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   salvarProgresso();
 }
 
-// Salva o progresso da lista
+// Salva progresso
 function salvarProgresso() {
   const itens = [];
   document.querySelectorAll("#lista-de-compras li").forEach((item) => {
@@ -123,7 +123,7 @@ function salvarProgresso() {
   localStorage.setItem("progressoCompras", JSON.stringify(itens));
 }
 
-// Carrega o progresso salvo
+// Carrega progresso
 function carregarProgresso() {
   const progresso = JSON.parse(localStorage.getItem("progressoCompras")) || [];
   progresso.forEach((p) => {
@@ -134,9 +134,7 @@ function carregarProgresso() {
 
 // Finalizar compra
 botaoFinalizar.addEventListener("click", () => {
-  const itens = document.querySelectorAll(
-    '#lista-de-compras li input[type="checkbox"]:checked'
-  );
+  const itens = document.querySelectorAll('#lista-de-compras li input[type="checkbox"]:checked');
 
   if (itens.length > 0 && total > 0) {
     const date = new Date();
@@ -158,7 +156,7 @@ botaoFinalizar.addEventListener("click", () => {
   }
 });
 
-// Mostrar histórico
+// Histórico
 function mostrarHistoricoCompras() {
   const comprasAnteriores = JSON.parse(localStorage.getItem("historicoCompras")) || [];
   historicoCompras.innerHTML = "";
@@ -173,7 +171,7 @@ function mostrarHistoricoCompras() {
 }
 
 // Limpar histórico
-btnLimparHistorico.addEventListener("click", () => {
+document.getElementById("limpar-historico").addEventListener("click", () => {
   if (confirm("Tem certeza que deseja limpar todo o histórico de compras?")) {
     localStorage.removeItem("historicoCompras");
     mostrarHistoricoCompras();
@@ -181,34 +179,20 @@ btnLimparHistorico.addEventListener("click", () => {
   }
 });
 
-// Atualiza ano no footer
+// Atualiza ano
 function atualizarAno() {
-  const anoAtual = new Date().getFullYear();
-  document.getElementById("anoAtual").textContent = anoAtual;
+  document.getElementById("anoAtual").textContent = new Date().getFullYear();
 }
 
-// ------------------- Tema claro/escuro ------------------- //
-
+// Alternar tema
 function toggleTema() {
   const body = document.body;
-
   if (body.classList.contains("light-theme")) {
     body.classList.replace("light-theme", "dark-theme");
     btnTema.textContent = "Tema claro";
-    setThemeColor("#121212");
-    localStorage.setItem("tema", "dark");
   } else {
     body.classList.replace("dark-theme", "light-theme");
     btnTema.textContent = "Tema escuro";
-    setThemeColor("#ffffff");
-    localStorage.setItem("tema", "light");
-  }
-}
-
-function setThemeColor(color) {
-  const themeMeta = document.querySelector('meta[name="theme-color"]');
-  if (themeMeta) {
-    themeMeta.setAttribute("content", color);
   }
 }
 
@@ -224,34 +208,41 @@ botaoAdicionar.addEventListener("click", () => {
   }
 });
 
-btnTema.addEventListener("click", toggleTema);
+// ------------------- PWA: Registro SW e Banner de Instalação ------------------- //
 
+// Registrar Service Worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js")
+    .then(() => console.log("Service Worker registrado!"))
+    .catch(err => console.log("Erro no SW:", err));
+}
+
+// Detecta quando o app pode ser instalado
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  btnInstalar.style.display = "block";
+});
+
+btnInstalar.addEventListener("click", async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      console.log("Usuário instalou o app!");
+    } else {
+      console.log("Usuário cancelou a instalação!");
+    }
+    deferredPrompt = null;
+    btnInstalar.style.display = "none";
+  }
+});
+
+// Carregar progresso, histórico e ano ao abrir
 document.addEventListener("DOMContentLoaded", () => {
   atualizarAno();
   mostrarHistoricoCompras();
   carregarProgresso();
-
-  // Aplica tema salvo ou padrão
-  const temaSalvo = localStorage.getItem("tema");
-  if (temaSalvo === "dark") {
-    document.body.classList.remove("light-theme");
-    document.body.classList.add("dark-theme");
-    btnTema.textContent = "Tema claro";
-    setThemeColor("#121212");
-  } else {
-    document.body.classList.remove("dark-theme");
-    document.body.classList.add("light-theme");
-    btnTema.textContent = "Tema escuro";
-    setThemeColor("#ffffff");
-  }
-
-  // Service Worker (PWA)
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then(() => console.log("Service Worker registrado!"))
-      .catch((err) => console.log("Erro no SW:", err));
-  }
 });
 
 // Aviso antes de sair/recarregar
