@@ -7,11 +7,8 @@ const nomeItemInput = document.getElementById("nome-item");
 const botaoAdicionar = document.getElementById("adicionar-item");
 const botaoFinalizar = document.getElementById("finalizar-compra");
 const historicoCompras = document.getElementById("historico-compras");
+const btnLimparHistorico = document.getElementById("limpar-historico");
 const btnTema = document.querySelector(".btnTema");
-
-// Botão de instalação no header
-let deferredPrompt = null;
-const installBtn = document.getElementById("installBtn");
 
 // ------------------- Funções ------------------- //
 
@@ -30,17 +27,19 @@ function atualizarTotal() {
   });
 
   valorTotal.innerText = total.toFixed(2);
-  salvarProgresso();
+  salvarProgresso(); // salva progresso sempre que atualiza
 }
 
 // Ordena a lista alfabeticamente
 function ordenarListaAlfabeticamente() {
   const itens = Array.from(listaDeCompras.querySelectorAll("li"));
+
   itens.sort((a, b) => {
     const nomeA = a.querySelector(".item-nome").textContent.trim().toLowerCase();
     const nomeB = b.querySelector(".item-nome").textContent.trim().toLowerCase();
     return nomeA.localeCompare(nomeB);
   });
+
   listaDeCompras.innerHTML = "";
   itens.forEach((item) => listaDeCompras.appendChild(item));
 }
@@ -53,18 +52,18 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   checkbox.checked = marcado;
   checkbox.addEventListener("change", atualizarTotal);
 
-  const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" value="${precoValue}" disabled></span>`;
-  const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" value="${quantidadeValue}" disabled></span>`;
+  const precoInput = `<span>R$ <input type="number" class="preco text-input" step="0.01" placeholder="" value="${precoValue}" disabled></span>`;
+  const quantidadeInput = `<span>Qtd: <input type="number" class="quantidade text-input" placeholder="" value="${quantidadeValue}" disabled></span>`;
 
   li.innerHTML = `
-    <span class="item-nome">${nome}</span>
-    ${precoInput}
-    ${quantidadeInput}
-    <div class="botoes-item">
-      <button class="editar-item btn-editar-item">Editar</button>
-      <button class="excluir-item btn-excluir-item">Excluir</button>
-    </div>
-  `;
+      <span class="item-nome">${nome}</span>
+      ${precoInput} 
+      ${quantidadeInput} 
+      <div class="botoes-item">
+        <button class="editar-item btn-editar-item">Editar</button>
+        <button class="excluir-item btn-excluir-item">Excluir</button>
+      </div>
+    `;
   li.prepend(checkbox);
 
   const precoInputElement = li.querySelector(".preco");
@@ -75,7 +74,7 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   precoInputElement.addEventListener("input", atualizarTotal);
   quantidadeInputElement.addEventListener("input", atualizarTotal);
 
-  // Editar/Salvar
+  // Botão editar/salvar
   btnEditar.addEventListener("click", () => {
     const isDisabled = precoInputElement.disabled;
     precoInputElement.disabled = !isDisabled;
@@ -83,15 +82,17 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
 
     if (isDisabled) {
       btnEditar.textContent = "Salvar";
-      btnEditar.classList.replace("btn-editar-item", "btn-salvar");
+      btnEditar.classList.remove("btn-editar-item");
+      btnEditar.classList.add("btn-salvar");
     } else {
       btnEditar.textContent = "Editar";
-      btnEditar.classList.replace("btn-salvar", "btn-editar-item");
+      btnEditar.classList.remove("btn-salvar");
+      btnEditar.classList.add("btn-editar-item");
       atualizarTotal();
     }
   });
 
-  // Excluir
+  // Botão excluir
   btnExcluir.addEventListener("click", () => {
     if (checkbox.checked) {
       const preco = parseFloat(precoInputElement.value) || 0;
@@ -108,7 +109,7 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   salvarProgresso();
 }
 
-// Salva progresso
+// Salva o progresso da lista
 function salvarProgresso() {
   const itens = [];
   document.querySelectorAll("#lista-de-compras li").forEach((item) => {
@@ -122,7 +123,7 @@ function salvarProgresso() {
   localStorage.setItem("progressoCompras", JSON.stringify(itens));
 }
 
-// Carrega progresso
+// Carrega o progresso salvo
 function carregarProgresso() {
   const progresso = JSON.parse(localStorage.getItem("progressoCompras")) || [];
   progresso.forEach((p) => {
@@ -133,7 +134,9 @@ function carregarProgresso() {
 
 // Finalizar compra
 botaoFinalizar.addEventListener("click", () => {
-  const itens = document.querySelectorAll('#lista-de-compras li input[type="checkbox"]:checked');
+  const itens = document.querySelectorAll(
+    '#lista-de-compras li input[type="checkbox"]:checked'
+  );
 
   if (itens.length > 0 && total > 0) {
     const date = new Date();
@@ -155,7 +158,7 @@ botaoFinalizar.addEventListener("click", () => {
   }
 });
 
-// Histórico
+// Mostrar histórico
 function mostrarHistoricoCompras() {
   const comprasAnteriores = JSON.parse(localStorage.getItem("historicoCompras")) || [];
   historicoCompras.innerHTML = "";
@@ -170,7 +173,7 @@ function mostrarHistoricoCompras() {
 }
 
 // Limpar histórico
-document.getElementById("limpar-historico").addEventListener("click", () => {
+btnLimparHistorico.addEventListener("click", () => {
   if (confirm("Tem certeza que deseja limpar todo o histórico de compras?")) {
     localStorage.removeItem("historicoCompras");
     mostrarHistoricoCompras();
@@ -178,49 +181,36 @@ document.getElementById("limpar-historico").addEventListener("click", () => {
   }
 });
 
-// Atualiza ano
+// Atualiza ano no footer
 function atualizarAno() {
-  document.getElementById("anoAtual").textContent = new Date().getFullYear();
+  const anoAtual = new Date().getFullYear();
+  document.getElementById("anoAtual").textContent = anoAtual;
 }
 
-// Alternar tema
+// ------------------- Tema claro/escuro ------------------- //
+
 function toggleTema() {
   const body = document.body;
+
   if (body.classList.contains("light-theme")) {
     body.classList.replace("light-theme", "dark-theme");
     btnTema.textContent = "Tema claro";
+    setThemeColor("#121212");
+    localStorage.setItem("tema", "dark");
   } else {
     body.classList.replace("dark-theme", "light-theme");
     btnTema.textContent = "Tema escuro";
+    setThemeColor("#ffffff");
+    localStorage.setItem("tema", "light");
   }
 }
 
-// ------------------- PWA ------------------- //
-
-// Registrar Service Worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/service-worker.js")
-    .then(() => console.log("Service Worker registrado!"))
-    .catch(err => console.log("Erro no SW:", err));
-}
-
-// Detecta quando o app pode ser instalado
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = "inline-block"; // mostra o botão no header
-});
-
-// Botão "Instalar"
-installBtn.addEventListener("click", async () => {
-  installBtn.style.display = "none";
-  if (deferredPrompt) {
-    deferredPrompt.prompt(); // dispara o prompt oficial
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log("Instalação resultado:", outcome);
-    deferredPrompt = null;
+function setThemeColor(color) {
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  if (themeMeta) {
+    themeMeta.setAttribute("content", color);
   }
-});
+}
 
 // ------------------- Eventos ------------------- //
 
@@ -234,11 +224,34 @@ botaoAdicionar.addEventListener("click", () => {
   }
 });
 
-// Carregar progresso, histórico e ano ao abrir
+btnTema.addEventListener("click", toggleTema);
+
 document.addEventListener("DOMContentLoaded", () => {
   atualizarAno();
   mostrarHistoricoCompras();
   carregarProgresso();
+
+  // Aplica tema salvo ou padrão
+  const temaSalvo = localStorage.getItem("tema");
+  if (temaSalvo === "dark") {
+    document.body.classList.remove("light-theme");
+    document.body.classList.add("dark-theme");
+    btnTema.textContent = "Tema claro";
+    setThemeColor("#121212");
+  } else {
+    document.body.classList.remove("dark-theme");
+    document.body.classList.add("light-theme");
+    btnTema.textContent = "Tema escuro";
+    setThemeColor("#ffffff");
+  }
+
+  // Service Worker (PWA)
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then(() => console.log("Service Worker registrado!"))
+      .catch((err) => console.log("Erro no SW:", err));
+  }
 });
 
 // Aviso antes de sair/recarregar
