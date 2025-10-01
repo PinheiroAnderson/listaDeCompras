@@ -1,52 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iList - Lista de Compras</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4CAF50">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#4CAF50" />
     <link rel="icon" type="image/png" href="./icon/carrinho-512.png" />
-</head>
+  </head>
 
-<body class="light-theme">
-
-    <header>iList</header>
-
-    <!-- Banner de instalação PWA -->
-    <div id="install-banner" class="install-banner" style="display:none;">
-        <span>Instale o iList no seu dispositivo!</span>
-        <button id="btn-instalar">Instalar</button>
-        <button id="btn-fechar-banner">✖</button>
-    </div>
+  <body class="light-theme">
+    <header>
+      <h1>iList</h1>
+      <button id="installBtn" style="display: none">📲 Instalar</button>
+    </header>
 
     <section>
-        <div id="novo-item">
-            <input type="text" id="nome-item" placeholder="Nome do item" />
-            <button id="adicionar-item">Adicionar Item</button>
-        </div>
+      <div id="novo-item">
+        <input type="text" id="nome-item" placeholder="Nome do item" />
+        <button id="adicionar-item">Adicionar Item</button>
+      </div>
 
-        <!-- Exibir itens da lista -->
-        <ul id="lista-de-compras"></ul>
+      <!-- Exibir itens da lista -->
+      <ul id="lista-de-compras"></ul>
 
-        <!-- Exibir valor total -->
-        <h2>Total: R$ <span id="valor-total">0.00</span></h2>
-        <button id="finalizar-compra">Finalizar Compra</button>
+      <!-- Exibir valor total -->
+      <h2>Total: R$ <span id="valor-total">0.00</span></h2>
+      <button id="finalizar-compra">Finalizar Compra</button>
 
-        <!-- Exibir histórico de compras -->
-        <h2>Histórico de Compras</h2>
-        <ul id="historico-compras"></ul>
-        <button id="limpar-historico">Limpar Histórico</button>
+      <!-- Exibir histórico de compras -->
+      <h2>Histórico de Compras</h2>
+      <ul id="historico-compras"></ul>
+      <button id="limpar-historico">Limpar Histórico</button>
     </section>
 
     <footer>
-        <p>&#174; <span id="anoAtual"></span> Desenvolvido por Anderson Pinheiro</p>
-        <button class="btnTema">Tema escuro</button>
+      <p>
+        &#174; <span id="anoAtual"></span> Desenvolvido por Anderson Pinheiro
+      </p>
+      <button class="btnTema">Tema escuro</button>
     </footer>
 
     <script src="app.js"></script>
-</body>
-
+  </body>
 </html>

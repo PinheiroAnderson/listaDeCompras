@@ -9,12 +9,9 @@ const botaoFinalizar = document.getElementById("finalizar-compra");
 const historicoCompras = document.getElementById("historico-compras");
 const btnTema = document.querySelector(".btnTema");
 
-// Banner customizado
-const banner = document.getElementById("install-banner");
-const btnInstalar = document.getElementById("btn-instalar");
-const btnFechar = document.getElementById("btn-fechar-banner");
-
+// Botão de instalação no header
 let deferredPrompt = null;
+const installBtn = document.getElementById("installBtn");
 
 // ------------------- Funções ------------------- //
 
@@ -211,23 +208,18 @@ if ("serviceWorker" in navigator) {
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  banner.style.display = "flex"; // mostra o banner customizado
+  installBtn.style.display = "inline-block"; // mostra o botão no header
 });
 
 // Botão "Instalar"
-btnInstalar.addEventListener("click", async () => {
-  banner.style.display = "none";
+installBtn.addEventListener("click", async () => {
+  installBtn.style.display = "none";
   if (deferredPrompt) {
     deferredPrompt.prompt(); // dispara o prompt oficial
     const { outcome } = await deferredPrompt.userChoice;
     console.log("Instalação resultado:", outcome);
     deferredPrompt = null;
   }
-});
-
-// Botão "Fechar"
-btnFechar.addEventListener("click", () => {
-  banner.style.display = "none";
 });
 
 // ------------------- Eventos ------------------- //
