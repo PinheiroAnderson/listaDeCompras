@@ -8,12 +8,17 @@ const botaoAdicionar = document.getElementById("adicionar-item");
 const botaoFinalizar = document.getElementById("finalizar-compra");
 const historicoCompras = document.getElementById("historico-compras");
 const btnTema = document.querySelector(".btnTema");
+
+// Banner customizado
+const banner = document.getElementById("install-banner");
 const btnInstalar = document.getElementById("btn-instalar");
+const btnFechar = document.getElementById("btn-fechar-banner");
 
 let deferredPrompt = null;
 
 // ------------------- Funções ------------------- //
 
+// Atualiza o valor total
 function atualizarTotal() {
   total = 0;
   const itens = document.querySelectorAll("#lista-de-compras li");
@@ -31,19 +36,19 @@ function atualizarTotal() {
   salvarProgresso();
 }
 
+// Ordena a lista alfabeticamente
 function ordenarListaAlfabeticamente() {
   const itens = Array.from(listaDeCompras.querySelectorAll("li"));
-
   itens.sort((a, b) => {
     const nomeA = a.querySelector(".item-nome").textContent.trim().toLowerCase();
     const nomeB = b.querySelector(".item-nome").textContent.trim().toLowerCase();
     return nomeA.localeCompare(nomeB);
   });
-
   listaDeCompras.innerHTML = "";
   itens.forEach((item) => listaDeCompras.appendChild(item));
 }
 
+// Adiciona item à lista
 function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = false) {
   const li = document.createElement("li");
   const checkbox = document.createElement("input");
@@ -73,6 +78,7 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   precoInputElement.addEventListener("input", atualizarTotal);
   quantidadeInputElement.addEventListener("input", atualizarTotal);
 
+  // Editar/Salvar
   btnEditar.addEventListener("click", () => {
     const isDisabled = precoInputElement.disabled;
     precoInputElement.disabled = !isDisabled;
@@ -88,6 +94,7 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
     }
   });
 
+  // Excluir
   btnExcluir.addEventListener("click", () => {
     if (checkbox.checked) {
       const preco = parseFloat(precoInputElement.value) || 0;
@@ -104,6 +111,7 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   salvarProgresso();
 }
 
+// Salva progresso
 function salvarProgresso() {
   const itens = [];
   document.querySelectorAll("#lista-de-compras li").forEach((item) => {
@@ -117,6 +125,7 @@ function salvarProgresso() {
   localStorage.setItem("progressoCompras", JSON.stringify(itens));
 }
 
+// Carrega progresso
 function carregarProgresso() {
   const progresso = JSON.parse(localStorage.getItem("progressoCompras")) || [];
   progresso.forEach((p) => {
@@ -125,6 +134,7 @@ function carregarProgresso() {
   atualizarTotal();
 }
 
+// Finalizar compra
 botaoFinalizar.addEventListener("click", () => {
   const itens = document.querySelectorAll('#lista-de-compras li input[type="checkbox"]:checked');
 
@@ -148,6 +158,7 @@ botaoFinalizar.addEventListener("click", () => {
   }
 });
 
+// Histórico
 function mostrarHistoricoCompras() {
   const comprasAnteriores = JSON.parse(localStorage.getItem("historicoCompras")) || [];
   historicoCompras.innerHTML = "";
@@ -161,6 +172,7 @@ function mostrarHistoricoCompras() {
   });
 }
 
+// Limpar histórico
 document.getElementById("limpar-historico").addEventListener("click", () => {
   if (confirm("Tem certeza que deseja limpar todo o histórico de compras?")) {
     localStorage.removeItem("historicoCompras");
@@ -169,10 +181,12 @@ document.getElementById("limpar-historico").addEventListener("click", () => {
   }
 });
 
+// Atualiza ano
 function atualizarAno() {
   document.getElementById("anoAtual").textContent = new Date().getFullYear();
 }
 
+// Alternar tema
 function toggleTema() {
   const body = document.body;
   if (body.classList.contains("light-theme")) {
@@ -184,6 +198,40 @@ function toggleTema() {
   }
 }
 
+// ------------------- PWA ------------------- //
+
+// Registrar Service Worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js")
+    .then(() => console.log("Service Worker registrado!"))
+    .catch(err => console.log("Erro no SW:", err));
+}
+
+// Detecta quando o app pode ser instalado
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  banner.style.display = "flex"; // mostra o banner customizado
+});
+
+// Botão "Instalar"
+btnInstalar.addEventListener("click", async () => {
+  banner.style.display = "none";
+  if (deferredPrompt) {
+    deferredPrompt.prompt(); // dispara o prompt oficial
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log("Instalação resultado:", outcome);
+    deferredPrompt = null;
+  }
+});
+
+// Botão "Fechar"
+btnFechar.addEventListener("click", () => {
+  banner.style.display = "none";
+});
+
+// ------------------- Eventos ------------------- //
+
 botaoAdicionar.addEventListener("click", () => {
   const nome = nomeItemInput.value;
   if (nome) {
@@ -194,36 +242,7 @@ botaoAdicionar.addEventListener("click", () => {
   }
 });
 
-// ------------------- PWA ------------------- //
-
-// Ajuste para GitHub Pages / subdiretórios
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js")
-    .then(() => console.log("Service Worker registrado!"))
-    .catch(err => console.log("Erro no SW:", err));
-}
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  btnInstalar.style.display = "block";
-});
-
-btnInstalar.addEventListener("click", async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") {
-      console.log("Usuário instalou o app!");
-    } else {
-      console.log("Usuário cancelou a instalação!");
-    }
-    deferredPrompt = null;
-    btnInstalar.style.display = "none";
-  }
-});
-
-// Carregar progresso, histórico e ano
+// Carregar progresso, histórico e ano ao abrir
 document.addEventListener("DOMContentLoaded", () => {
   atualizarAno();
   mostrarHistoricoCompras();
