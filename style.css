@@ -93,6 +93,41 @@ button:hover {
   transition: 0.2s;
 }
 
+/* Banner de instalação PWA */
+.install-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: #4CAF50;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 1000;
+  font-family: sans-serif;
+}
+
+.install-banner button {
+  background: white;
+  color: #4CAF50;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.install-banner button:hover {
+  background: #e0e0e0;
+}
+
+/* Seu CSS existente: temas, responsividade, inputs, botões, lista etc. */
+
+
 /* ================== Responsividade ================== */
 
 @media (max-width: 768px) {
