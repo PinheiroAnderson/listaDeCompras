@@ -14,7 +14,6 @@ let deferredPrompt = null;
 
 // ------------------- Funções ------------------- //
 
-// Atualiza o valor total
 function atualizarTotal() {
   total = 0;
   const itens = document.querySelectorAll("#lista-de-compras li");
@@ -32,7 +31,6 @@ function atualizarTotal() {
   salvarProgresso();
 }
 
-// Ordena a lista alfabeticamente
 function ordenarListaAlfabeticamente() {
   const itens = Array.from(listaDeCompras.querySelectorAll("li"));
 
@@ -46,7 +44,6 @@ function ordenarListaAlfabeticamente() {
   itens.forEach((item) => listaDeCompras.appendChild(item));
 }
 
-// Adiciona item à lista
 function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = false) {
   const li = document.createElement("li");
   const checkbox = document.createElement("input");
@@ -76,7 +73,6 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   precoInputElement.addEventListener("input", atualizarTotal);
   quantidadeInputElement.addEventListener("input", atualizarTotal);
 
-  // Editar/Salvar
   btnEditar.addEventListener("click", () => {
     const isDisabled = precoInputElement.disabled;
     precoInputElement.disabled = !isDisabled;
@@ -92,7 +88,6 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
     }
   });
 
-  // Excluir
   btnExcluir.addEventListener("click", () => {
     if (checkbox.checked) {
       const preco = parseFloat(precoInputElement.value) || 0;
@@ -109,7 +104,6 @@ function adicionarItem(nome, precoValue = "", quantidadeValue = "", marcado = fa
   salvarProgresso();
 }
 
-// Salva progresso
 function salvarProgresso() {
   const itens = [];
   document.querySelectorAll("#lista-de-compras li").forEach((item) => {
@@ -123,7 +117,6 @@ function salvarProgresso() {
   localStorage.setItem("progressoCompras", JSON.stringify(itens));
 }
 
-// Carrega progresso
 function carregarProgresso() {
   const progresso = JSON.parse(localStorage.getItem("progressoCompras")) || [];
   progresso.forEach((p) => {
@@ -132,7 +125,6 @@ function carregarProgresso() {
   atualizarTotal();
 }
 
-// Finalizar compra
 botaoFinalizar.addEventListener("click", () => {
   const itens = document.querySelectorAll('#lista-de-compras li input[type="checkbox"]:checked');
 
@@ -156,7 +148,6 @@ botaoFinalizar.addEventListener("click", () => {
   }
 });
 
-// Histórico
 function mostrarHistoricoCompras() {
   const comprasAnteriores = JSON.parse(localStorage.getItem("historicoCompras")) || [];
   historicoCompras.innerHTML = "";
@@ -170,7 +161,6 @@ function mostrarHistoricoCompras() {
   });
 }
 
-// Limpar histórico
 document.getElementById("limpar-historico").addEventListener("click", () => {
   if (confirm("Tem certeza que deseja limpar todo o histórico de compras?")) {
     localStorage.removeItem("historicoCompras");
@@ -179,12 +169,10 @@ document.getElementById("limpar-historico").addEventListener("click", () => {
   }
 });
 
-// Atualiza ano
 function atualizarAno() {
   document.getElementById("anoAtual").textContent = new Date().getFullYear();
 }
 
-// Alternar tema
 function toggleTema() {
   const body = document.body;
   if (body.classList.contains("light-theme")) {
@@ -196,8 +184,6 @@ function toggleTema() {
   }
 }
 
-// ------------------- Eventos ------------------- //
-
 botaoAdicionar.addEventListener("click", () => {
   const nome = nomeItemInput.value;
   if (nome) {
@@ -208,16 +194,15 @@ botaoAdicionar.addEventListener("click", () => {
   }
 });
 
-// ------------------- PWA: Registro SW e Banner de Instalação ------------------- //
+// ------------------- PWA ------------------- //
 
-// Registrar Service Worker
+// Ajuste para GitHub Pages / subdiretórios
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/service-worker.js")
+  navigator.serviceWorker.register("./service-worker.js")
     .then(() => console.log("Service Worker registrado!"))
     .catch(err => console.log("Erro no SW:", err));
 }
 
-// Detecta quando o app pode ser instalado
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
@@ -238,7 +223,7 @@ btnInstalar.addEventListener("click", async () => {
   }
 });
 
-// Carregar progresso, histórico e ano ao abrir
+// Carregar progresso, histórico e ano
 document.addEventListener("DOMContentLoaded", () => {
   atualizarAno();
   mostrarHistoricoCompras();
