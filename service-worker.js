@@ -1,10 +1,10 @@
 const CACHE_NAME = "ilist-cache-v1";
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/app.js",
-  "/icon/carrinho-512.png",
+  "./",
+  "./index.html",
+  "./style.css",
+  "./app.js",
+  "./icon/carrinho-512.png",
 ];
 
 self.addEventListener("install", (event) => {
